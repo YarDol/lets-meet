@@ -1,19 +1,36 @@
-const professions = {
-    doctor: { _id: "67rdca3eeb7f6fgeed471818", name: "Лікар" },
-    waiter: { _id: "67rdca3eeb7f6fgeed471820", name: "Офіціант" },
-    physics: { _id: "67rdca3eeb7f6fgeed471814", name: "Фізик" },
-    engineer: { _id: "67rdca3eeb7f6fgeed471822", name: "Інженер" },
-    actor: { _id: "67rdca3eeb7f6fgeed471824", name: "Актор" },
-    cook: { _id: "67rdca3eeb7f6fgeed471829", name: "Кухар" }
-}
+import { professionsObject as professions } from "./professions.api";
 const qualities = {
-    tedious: { _id: "67rdca3eeb7f6fgeed471198", name: "Нудний", color: "primary" },
-    strange: { _id: "67rdca3eeb7f6fgeed471100", name: "Дивний", color: "secondary" },
-    buller: { _id: "67rdca3eeb7f6fgeed4711012", name: "Троль", color: "success" },
-    alcoholic: { _id: "67rdca3eeb7f6fgeed471101", name: "Алкоголік", color: "danger" },
-    handsome: { _id: "67rdca3eeb7f6fgeed471102", name: "Красавчик", color: "info" },
-    uncertain: { _id: "67rdca3eeb7f6fgeed471103", name: "Невпевненний", color: "dark" },
-}
+    tedious: {
+        _id: "67rdca3eeb7f6fgeed471198",
+        name: "Нудний",
+        color: "primary"
+    },
+    strange: {
+        _id: "67rdca3eeb7f6fgeed471100",
+        name: "Дивний",
+        color: "secondary"
+    },
+    buller: {
+        _id: "67rdca3eeb7f6fgeed4711012",
+        name: "Троль",
+        color: "success"
+    },
+    alcoholic: {
+        _id: "67rdca3eeb7f6fgeed471101",
+        name: "Алкоголік",
+        color: "danger"
+    },
+    handsome: {
+        _id: "67rdca3eeb7f6fgeed471102",
+        name: "Красунчик",
+        color: "info"
+    },
+    uncertain: {
+        _id: "67rdca3eeb7f6fgeed471103",
+        name: "Невпевнений",
+        color: "dark"
+    }
+};
 
 const users = [
     {
@@ -90,7 +107,7 @@ const users = [
     },
     {
         _id: "67rdca3eeb7f6fgeed471823",
-        name: "Моніка Хеллер",
+        name: "Моніка Гелер",
         profession: professions.cook,
         qualities: [qualities.strange, qualities.uncertain],
         completedMeetings: 17,
@@ -108,7 +125,7 @@ const users = [
     },
     {
         _id: "67rdca3eeb7f6fgeed47181f",
-        name: "Джоуі Трібіані",
+        name: "Джоуі Трибіані",
         profession: professions.actor,
         qualities: [qualities.uncertain, qualities.strange],
         completedMeetings: 434,
@@ -123,8 +140,16 @@ const users = [
         completedMeetings: 434,
         rate: 5,
         bookmark: false
-    },
-]
-export function fetchAll() {
-    return users
-}
+    }
+];
+
+const fetchAll = () =>
+    new Promise((resolve) => {
+        window.setTimeout(function () {
+            resolve(users);
+        }, 2000);
+    });
+
+export default {
+    fetchAll
+};
