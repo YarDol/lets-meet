@@ -1,9 +1,20 @@
 import React from "react";
-import Users from "./components/users";
+import Users from "./layout/users";
+import Navbar from "./components/navBar";
+import { Routes, Route } from "react-router-dom";
+import Login from "./layout/login";
+import Home from "./layout/home";
 
 function App() {
     return (
-        <Users/>
+        <>
+        <Navbar/>
+        <Routes>
+            <Route path="/users/:userId?" element={<Users/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/" element={<Home/>}/>
+        </Routes>
+        </>
     );
 }
 
