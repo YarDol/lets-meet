@@ -8,13 +8,32 @@ import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
 
-const Users = ({ users, ...rest }) => {
+const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({iter: "name", order: "asc"})
 
     const pageSize = 4;
+
+    const [users, setUsers] = useState();
+    useEffect(() => {
+        API.users.fetchAll().then((data) => setUsers(data));
+    }, []);
+    const handleDelete = (userId) => {
+        setUsers(users.filter((user) => user._id !== userId));
+    };
+    const handleToggleBookMark = (id) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return { ...user, bookmark: !user.bookmark };
+                }
+                return user;
+            })
+        );
+    };
+
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfession(data));
     }, []);
@@ -29,6 +48,9 @@ const Users = ({ users, ...rest }) => {
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
+
+    if(users) {
+
     const filteredUsers = selectedProf
         ? users.filter(
               (user) =>
@@ -69,7 +91,7 @@ const Users = ({ users, ...rest }) => {
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
                 {count > 0 && (
-                    <UsersTable users={usersCrop} onSort={handleSort} selectedSort={sortBy} {...rest}/>
+                    <UsersTable users={usersCrop} onSort={handleSort} selectedSort={sortBy} onDelete={handleDelete} onToggleBookMark={handleToggleBookMark}/>
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
@@ -81,7 +103,8 @@ const Users = ({ users, ...rest }) => {
                 </div>
             </div>
         </div>
-    );
+    )}
+    return "loading"
 };
 Users.propTypes = {
     users: PropTypes.array
