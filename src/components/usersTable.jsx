@@ -2,18 +2,27 @@ import React from 'react'
 import User from './user';
 import PropTypes from 'prop-types'
 
-const UsersTable = ({users, onSort, ...rest}) => {
+const UsersTable = ({users, onSort, currentSort, ...rest}) => {
+
+    const handleSort = (item) => {
+        if(currentSort.iter === item){
+            onSort({...currentSort, order: currentSort.order === "asc"?"desc":"asc"})
+        }else{
+            onSort({iter:item, order:"asc"})
+        }
+    }
+
     return (
         <table className="table">
             <thead>
                 <tr>
-                    <th onClick={()=>onSort('name')} scope="col">Ім'я</th>
+                    <th onClick={()=>handleSort('name')} scope="col">Ім'я</th>
                     <th scope="col">Якості</th>
-                    <th onClick={()=>onSort('profession.name')} scope="col">Професія</th>
-                    <th onClick={()=>onSort('completedMeetings')} scope="col">Зустрічей, раз</th>
-                    <th onClick={()=>onSort('rate')} scope="col">Оцінка</th>
-                    <th onClick={()=>onSort('bookmark')} scope="col">Вподобані</th>
-                    <th onClick={()=>onSort()} />
+                    <th onClick={()=>handleSort('profession.name')} scope="col">Професія</th>
+                    <th onClick={()=>handleSort('completedMeetings')} scope="col">Зустрічей, раз</th>
+                    <th onClick={()=>handleSort('rate')} scope="col">Оцінка</th>
+                    <th onClick={()=>handleSort('bookmark')} scope="col">Вподобані</th>
+                    <th onClick={()=>handleSort()} />
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +36,8 @@ const UsersTable = ({users, onSort, ...rest}) => {
 
 UsersTable.protoType ={
     users: PropTypes.array.isRequired,
-    onSort: PropTypes.func
+    onSort: PropTypes.func,
+    currentSort: PropTypes.object
 }
 
 export default UsersTable;

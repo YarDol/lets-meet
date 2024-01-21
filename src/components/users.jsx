@@ -45,11 +45,7 @@ const Users = ({ users, ...rest }) => {
     };
 
     const handleSort = (item) => {
-        if(sortBy.iter === item){
-            setSortBy((prevState) => ({...prevState, order: prevState.order === "asc"?"desc":"asc"}))
-        }else{
-            setSortBy({iter:item, order:"asc"})
-        }
+        setSortBy(item)
     }
 
     return (
@@ -73,7 +69,7 @@ const Users = ({ users, ...rest }) => {
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
                 {count > 0 && (
-                    <UsersTable users={usersCrop} onSort={handleSort} {...rest}/>
+                    <UsersTable users={usersCrop} onSort={handleSort} currentSort={sortBy}{...rest}/>
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
