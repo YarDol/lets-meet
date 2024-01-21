@@ -38,7 +38,7 @@ const Users = ({ users, ...rest }) => {
         : users;
 
     const count = filteredUsers.length;
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order])
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
@@ -62,7 +62,7 @@ const Users = ({ users, ...rest }) => {
                         onClick={clearFilter}
                     >
                         {" "}
-                        Очистить
+                        Очистити
                     </button>
                 </div>
             )}

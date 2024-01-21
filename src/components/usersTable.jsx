@@ -1,36 +1,46 @@
 import React from 'react'
-import User from './user';
 import PropTypes from 'prop-types'
 import TableHeader from './tableHeader';
+import TableBody from './tableBody';
+import BookMark from './bookmark'
 
-const UsersTable = ({users, onSort, selectedSort, ...rest}) => {
+const UsersTable = ({users, onSort, selectedSort, onToggleBookMark, onDelete, ...rest}) => {
 
     const columns = {
-        name: {iter:"name", name:"Ім'я"},
+        name: {path:"name", name:"Ім'я"},
         qualities: {name:"Якості"},
-        professions: {iter:"profession.name", name:"Професія"},
-        completedMeetings: {iter:"completedMeetings", name:"Зустрічей, раз"},
-        rate: {iter:"rate", name:"Оцінка"},
-        bookmark: {iter:"bookmark", name:"Вподобані"},
-        delete: {}
+        professions: {path:"profession.name", name:"Професія"},
+        completedMeetings: {path:"completedMeetings", name:"Зустрічей, раз"},
+        rate: {path:"rate", name:"Оцінка"},
+        bookmark: {path:"bookmark", name:"Вподобані", component: (user) => (
+        <BookMark
+            status={user.bookmark}
+            onClick={() => onToggleBookMark(user._id)}/>)
+        },
+        delete: {component: (user) => (
+            <button
+                className="btn btn-danger mt-2"
+                onClick={() => onDelete(user._id)}>
+                    Delete
+            </button>
+            )
+        }
     }
 
     return (
         <table className="table">
             <TableHeader {...{onSort, selectedSort, columns}}/>
-            <tbody>
-                {users.map((user) => (
-                    <User {...rest} {...user} key={user._id} />
-                ))}
-            </tbody>
+            <TableBody {...{columns, data: users}}/>
         </table>
     )
 }
 
 UsersTable.protoType ={
     users: PropTypes.array.isRequired,
-    onSort: PropTypes.func,
-    selectedSort: PropTypes.object
+    onSort: PropTypes.func.isRequired,
+    selectedSort: PropTypes.object.isRequired,
+    onToggleBookMark: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
 }
 
 export default UsersTable;
