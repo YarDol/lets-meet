@@ -1,6 +1,6 @@
 import React from "react";
 import Users from "./layout/users";
-import Navbar from "./components/navBar";
+import Navbar from "./components/ui/navBar";
 import { Routes, Route } from "react-router-dom";
 import Login from "./layout/login";
 import Home from "./layout/home";
