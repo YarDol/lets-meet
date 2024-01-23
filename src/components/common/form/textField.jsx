@@ -8,13 +8,17 @@ const TextField = ({label, type, name, value, onChange, error}) => {
     }
     const toggleShowPassword = () => { 
         setShowPassword((prevState) => !prevState);
-     }
+    }
+
+    const handleChange = ({target}) => { 
+        onChange({name: target.name, value: target.value})
+    }
 
     return (
         <div className='mb-4'>
             <label htmlFor={name}>{label}</label>
             <div className='input-group has-validation'>
-                <input className={getInputClasses()} type={ showPassword ? "text" : type} id={name} name={name} value={value} onChange={onChange}/>
+                <input className={getInputClasses()} type={ showPassword ? "text" : type} id={name} name={name} value={value} onChange={handleChange}/>
                 {type === "password" && (
                     <button className="btn btn-outline-secondary" onClick={toggleShowPassword} type="button"><i className={'bi bi-eye'+(showPassword?"-slash":'')}/></button>
                 )}
