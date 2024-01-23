@@ -9,9 +9,9 @@ const UserPage = ({userId}) => {
     const [user, setUser] = useState()
     useEffect(()=> {
         API.users.getById(userId).then(data => setUser(data))
-    })
+    },[])
     const handleClick = () => {
-        navigate("/users");
+        navigate(`/users/${userId}/edit`);
     }
     if(user){
         return (

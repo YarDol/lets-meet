@@ -21,25 +21,6 @@ const RegisterForm = () => {
     const handleChange = (target) => {
             setData((prevState) => ({...prevState, [target.name]: target.value}))
     }
-    
-    const validatorConfig = {
-        email: {
-            isRequired: {message: "Email is required"},
-            isEmail : {message: "Email is incorrect"}
-        },
-        password: {
-            isRequired: {message: "Password is required"},
-            isCapital: {message: "Should be at least one capital letter"},
-            isContainDigit: {message: "Should contain digit"},
-            min: {message: 'No less then 8 symbols', value: 8}
-        },
-        profession: {
-            isRequired: {message: 'Choose your profession'}
-        },
-        license : {
-            isRequired: {message: 'Need to allow license agreements'}
-        }
-    }
 
     const validateScheme = yup.object().shape({
         license: yup.boolean().oneOf([true],'Need to allow license agreements'),
@@ -92,7 +73,8 @@ const RegisterForm = () => {
                 options={professions} 
                 defaultOption={'Choose...'} 
                 error={errors.profession} 
-                value={data.profession} 
+                value={data.profession}
+                name="professions" 
                 label={'Оберіть вашу професію'}
             />
             <RadioField
@@ -111,6 +93,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 name="qualities"
                 label="Оберіть ваші якості"
+                defaultValue = {data.qualities}
             />
             <CheckBoxField 
                 value={data.license}
