@@ -4,13 +4,14 @@ import BookMark from '../common/bookmark'
 import Qualities from './qualities';
 import Table from '../common/table';
 import { Link } from 'react-router-dom';
+import Profession from './profession';
 
 const UsersTable = ({users, onSort, selectedSort, onToggleBookMark, onDelete, ...rest}) => {
 
     const columns = {
         name: {path:"name", name:"Ім'я", component: (user) => (<Link to={`/users/${user._id}`}>{user.name}</Link>)},
         qualities: {name:"Якості", component: (user) => (<Qualities qualities={user.qualities}/>)},
-        professions: {path:"profession.name", name:"Професія"},
+        professions: {name:"Професія", component: (user) => (<Profession id={user.profession}/>)},
         completedMeetings: {path:"completedMeetings", name:"Зустрічей, раз"},
         rate: {path:"rate", name:"Оцінка"},
         bookmark: {path:"bookmark", name:"Вподобані", component: (user) => (

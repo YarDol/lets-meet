@@ -10,11 +10,17 @@ import * as yup from 'yup';
 const RegisterForm = () => {
     const [data, setData] = useState({email: "", password: "", profession: "", sex: "male", qualities: [], license: false});
     const [errors, setErrors] = useState({});
-    const [professions, setProfession] = useState();
+    const [professions, setProfession] = useState([]);
     const [qualities, setQualities] = useState({});
 
     useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfession(data));
+        API.professions.fetchAll().then((data) => {
+            const professionsList = Object.keys(data).map((professionName) => ({
+                label: data[professionName].name,
+                value: data[professionName]._id
+            }));
+            setProfession(professionsList);
+        });
         API.qualities.fetchAll().then((data) => setQualities(data))
     }, []);
 
@@ -74,7 +80,7 @@ const RegisterForm = () => {
                 defaultOption={'Choose...'} 
                 error={errors.profession} 
                 value={data.profession}
-                name="professions" 
+                name="profession" 
                 label={'Оберіть вашу професію'}
             />
             <RadioField

@@ -10,7 +10,7 @@ const UserPage = ({userId}) => {
 
     const [user, setUser] = useState()
     useEffect(()=> {
-        API.users.getById(userId).then(data => setUser(data))
+        API.users.getById(userId).then((data) => setUser(data));
     },[])
 
     if(user){
