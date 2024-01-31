@@ -1,44 +1,44 @@
 import React from "react";
-import Users from "./layout/users";
+import Users from "./layouts/users";
 import Navbar from "./components/ui/navBar";
-import { Routes, Route } from "react-router-dom";
-import Login from "./layout/login";
-import Home from "./layout/home";
+import { Route, Routes } from "react-router-dom";
+import Login from "./layouts/login";
+import Main from "./layouts/main";
+import ProtectedRout from "./components/common/protectedRoute";
 import { ToastContainer } from "react-toastify";
 import { ProfessionProvider } from "./hooks/useProfession";
 import { QualitiesProvider } from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
+import LogOut from "./layouts/logOut";
 
 function App() {
-    return (
-        <>
-        <Navbar/>
-        <Routes>
-            <Route
+  return (
+    <div>
+      <AuthProvider>
+        <Navbar />
+        <QualitiesProvider>
+          <ProfessionProvider>
+            <Routes>
+              <Route
                 path="/users/:userId?/:edit?"
                 element={
-                    <React.Fragment>
-                        <QualitiesProvider>
-                        <ProfessionProvider>
-                            <Users />
-                        </ProfessionProvider>
-                        </QualitiesProvider>
-                    </React.Fragment>
+                  <React.Fragment>
+                    <ProtectedRout>
+                      <Users />
+                    </ProtectedRout>
+                  </React.Fragment>
                 }
-            />
-            <Route path="/login/:type?" element={
-                <React.Fragment>
-                    <QualitiesProvider>
-                    <ProfessionProvider>
-                        <Login />
-                    </ProfessionProvider>
-                    </QualitiesProvider>
-                </React.Fragment>
-            } />
-            <Route path="/" element={<Home />} />
-        </Routes>
-        <ToastContainer/>
-        </>
-    );
+              />
+              <Route path="/login/:type?" element={<Login />} />
+              <Route path="/logout" element={<LogOut />} />
+              <Route path="/" element={<Main />} />
+            </Routes>
+          </ProfessionProvider>
+        </QualitiesProvider>
+      </AuthProvider>
+      <ToastContainer />
+    </div>
+  );
 }
 
 export default App;
