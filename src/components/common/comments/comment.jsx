@@ -1,59 +1,59 @@
-import React, {useState, useEffect} from 'react'
-import API from '../../../api';
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 import { displayDate } from "../../../utils/displayDate";
+import { useUser } from "../../../hooks/useUsers";
+import { useAuth } from "../../../hooks/useAuth";
 
-const Comment = ({content, created_at: created, _id: id, userId, onRemove}) => {
-    const [isLoading, setIsLoading] = useState();
-    const [user, setUser] = useState();
-
-    useEffect(()=> {
-       setIsLoading(true);
-        API.users.getById(userId).then(data => {
-            setUser(data);
-            setIsLoading(false);
-        })
-    },[])
-
+const Comment = ({
+    content,
+    created_at: created,
+    _id: id,
+    userId,
+    onRemove
+}) => {
+    const { getUserById } = useUser();
+    const { currentUser } = useAuth();
+    const user = getUserById(userId);
 
     return (
         <div className="bg-light card-body  mb-3">
             <div className="row">
-                {isLoading ? (
-                    "Loading ..."
-                ) : (
                 <div className="col">
                     <div className="d-flex flex-start ">
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${(Math.random() + 1).toString(36).substring(7)}`}
-                        className="rounded-circle shadow-1-strong me-3"
-                        alt="avatar"
-                        width="65"
-                        height="65"
-                    />
+                        <img
+                            src={user.image}
+                            className="rounded-circle shadow-1-strong me-3"
+                            alt="avatar"
+                            width="65"
+                            height="65"
+                        />
                         <div className="flex-grow-1 flex-shrink-1">
                             <div className="mb-4">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1 ">
-                                       {user && user.name}{" "}
+                                        {user && user.name}{" "}
                                         <span className="small">
-                                           - {displayDate(created)}
+                                            - {displayDate(created)}
                                         </span>
                                     </p>
-                                    <button className="btn btn-sm text-primary d-flex align-items-center" onClick={() => onRemove(id)}>
-                                        <i className="bi bi-x-lg"></i>
-                                    </button>
+                                    {currentUser._id === userId && (
+                                        <button
+                                            className="btn btn-sm text-primary d-flex align-items-center"
+                                            onClick={() => onRemove(id)}
+                                        >
+                                            <i className="bi bi-x-lg"></i>
+                                        </button>
+                                    )}
                                 </div>
                                 <p className="small mb-0">{content}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                )}
             </div>
         </div>
-    )
-}
-
+    );
+};
 Comment.propTypes = {
     content: PropTypes.string,
     edited_at: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
