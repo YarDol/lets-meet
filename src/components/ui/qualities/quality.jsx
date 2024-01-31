@@ -4,7 +4,7 @@ import { useQualities } from "../../../hooks/useQualities";
 
 const Quality = ({id}) => {
     const {getQuality} = useQualities();
-    const {color, _id, name} = getQuality(id);
+    const {color, name} = getQuality(id);
     return (
         <span className={`badge text-light m-1 bg-` + color}>{name}</span>
     )
