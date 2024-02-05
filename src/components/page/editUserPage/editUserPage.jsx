@@ -7,8 +7,9 @@ import RadioField from "../../common/form/radioField";
 import * as yup from 'yup';
 import BackHistoryButton from "../../common/backButton"
 import { useAuth } from "../../../hooks/useAuth";
-import { useQualities } from "../../../hooks/useQualities";
-import { useProfessions } from "../../../hooks/useProfession";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesLoadingStatus } from "../../../store/qualities";
+import { getProfession, getProfessionLoadingStatus } from "../../../store/profession";
 
 
 const EditUserPage = () => {
@@ -16,17 +17,20 @@ const EditUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
     const { currentUser, updateUserData } = useAuth();
-    const { qualities, isLoading: qualitiesLoading } = useQualities();
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus())
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
     }));
-    const { professions, isLoading: professionLoading } = useProfessions();
+    const professions = useSelector(getProfession());
+    const professionLoading = useSelector(getProfessionLoadingStatus())
     const professionsList = professions.map((p) => ({
         label: p.name,
         value: p._id
     }));
     const [errors, setErrors] = useState({});
+
 
     const validateScheme = yup.object().shape({
         name: yup.string().required("Name is required"),
