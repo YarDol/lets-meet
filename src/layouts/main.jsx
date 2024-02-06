@@ -1,24 +1,17 @@
 import React from "react";
-import useMockData from "../utils/mockData";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
-    const { error, initialize, progress, status } = useMockData();
-    const handleClick = () => {
-        initialize();
-    };
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        navigate("/login")
+    }
+
     return (
         <div className="container mt-5">
-            <h1> Main Page</h1>
-            <h3>Ініціалізаці данних в FireBase</h3>
-            <ul>
-                <li>Status: {status}</li>
-                <li>Progress: {progress}%</li>
-                {error && <li>Error: {error}</li>}
-            </ul>
-            <button className="btn btn-primary" onClick={handleClick}>
-                {" "}
-                Ініціалізувати
-            </button>
+            <h1>Hey, welcome!</h1>
+            <button onClick={handleSubmit} className="mt-2 btn btn-primary">Перейти до входу</button>
         </div>
     );
 };
