@@ -6,17 +6,18 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import RadioField from "../../common/form/radioField";
 import * as yup from 'yup';
 import BackHistoryButton from "../../common/backButton"
-import { useAuth } from "../../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities, getQualitiesLoadingStatus } from "../../../store/qualities";
 import { getProfession, getProfessionLoadingStatus } from "../../../store/profession";
+import { getCurrentUserData, updateUser } from "../../../store/users";
 
 
 const EditUserPage = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, updateUserData } = useAuth();
+    const dispatch = useDispatch();
+    const currentUser = useSelector(getCurrentUserData())
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus())
     const qualitiesList = qualities.map((q) => ({
@@ -37,15 +38,14 @@ const EditUserPage = () => {
         email: yup.string().required("Email is required").email("Email is incorrect")
     })
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        await updateUserData({
+        dispatch(updateUser({
             ...data,
             qualities: data.qualities.map((q) => q.value)
-        });
-
+        }))
         navigate(`/users/${currentUser._id}`);
     };
 

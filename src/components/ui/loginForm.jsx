@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useAuth } from "../../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
 import * as yup from 'yup';
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthError, logIn } from "../../store/users";
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -11,17 +11,15 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { logIn } = useAuth();
+    const logInError = useSelector(getAuthError())
+    const dispatch = useDispatch()
     const [errors, setErrors] = useState({});
-    const [enterError, setEnterError] = useState(null);
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
-        setEnterError(null);
+
     };
 
     const validateScheme = yup.object().shape({
@@ -42,19 +40,10 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-
-        try {
-            await logIn(data);
-
-            navigate(
-                location.state
-                    ? location.state.from.pathname
-                    : "/"
-            );
-        } catch (error) {
-            setEnterError(error.message);
-        }
+        dispatch(logIn(data))
+        console.log()
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField
@@ -79,11 +68,11 @@ const LoginForm = () => {
             >
                 Залишитись в системі?
             </CheckBoxField>
-            {enterError && <p className="text-danger">{enterError}</p>}
+            {logInError && <p className="text-danger">{logInError}</p>}
             <button
                 className="btn btn-primary w-100 mx-auto"
                 type="submit"
-                disabled={!isValid || enterError}
+                disabled={!isValid}
             >
                 Submit
             </button>
