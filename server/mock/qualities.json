@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "67rdca3eeb7f6fgeed471198",
+    "name": "Нудний",
+    "color": "primary"
+  },
+  {
+    "_id": "67rdca3eeb7f6fgeed471100",
+    "name": "Дивний",
+    "color": "secondary"
+  },
+  {
+    "_id": "67rdca3eeb7f6fgeed4711012",
+    "name": "Троль",
+    "color": "success"
+  },
+  {
+    "_id": "67rdca3eeb7f6fgeed471101",
+    "name": "Алкоголік",
+    "color": "danger"
+  },
+  {
+    "_id": "67rdca3eeb7f6fgeed471102",
+    "name": "Красунчик",
+    "color": "info"
+  },
+  {
+    "_id": "67rdca3eeb7f6fgeed471103",
+    "name": "Невпевнений",
+    "color": "dark"
+  }
+]
