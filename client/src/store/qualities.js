@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import qualityService from "../services/quality.service";
+import { createSelector } from "reselect";
 
 const qualitiesSlice = createSlice({
   name: "qualities",
@@ -54,20 +55,23 @@ export const getQualities = () => (state) => state.qualities.entities;
 export const getQualitiesLoadingStatus = () => (state) =>
   state.qualities.isLoading;
 
-export const getQualitiesByIds = (qualitiesIds) => (state) => {
-  if (state.qualities.entities) {
-    const qualitiesArray = [];
-    for (const qualityId of qualitiesIds) {
-      for (const quality of state.qualities.entities) {
-        if (quality._id === qualityId) {
-          qualitiesArray.push(quality);
-          break;
+const getQualitiesEntities = (state) => state.qualities.entities;
+
+export const getQualitiesByIds = (qualitiesIds) =>
+  createSelector([getQualitiesEntities], (qualitiesEntities) => {
+    if (qualitiesEntities) {
+      const qualitiesArray = [];
+      for (const qualityId of qualitiesIds) {
+        for (const quality of qualitiesEntities) {
+          if (quality._id === qualityId) {
+            qualitiesArray.push(quality);
+            break;
+          }
         }
       }
+      return qualitiesArray;
     }
-    return qualitiesArray;
-  }
-  return [];
-};
+    return [];
+  });
 
 export default qualitiesReducer;

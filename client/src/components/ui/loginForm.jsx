@@ -4,8 +4,10 @@ import CheckBoxField from "../common/form/checkBoxField";
 import * as yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthError, logIn } from "../../store/users";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+    const navigate = useNavigate()
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -41,7 +43,7 @@ const LoginForm = () => {
         const isValid = validate();
         if (!isValid) return;
         dispatch(logIn(data))
-        console.log()
+        navigate('/')
     };
 
     return (
