@@ -66,11 +66,10 @@ const UsersListPage = () => {
                 : selectedProf
                 ? data.filter(
                       (user) =>
-                          JSON.stringify(user.profession) ===
-                          JSON.stringify(selectedProf)
+                      user.profession === selectedProf._id
                   )
                 : data;
-            return filteredUsers.filter((u) => u._id !== currentUserId._id);
+            return filteredUsers.filter((u) => u._id !== currentUserId);
         }
         const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;
